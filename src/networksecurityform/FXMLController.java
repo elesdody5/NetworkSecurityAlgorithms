@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import networksecurityform.algorithms.Caser;
 import networksecurityform.algorithms.Playfair;
+import networksecurityform.algorithms.DES;
 
 /**
  * FXML Controller class
@@ -41,6 +42,7 @@ public class FXMLController implements Initializable {
     TextField key;
     private static final String CASER = "Caser";
     private static final String PLAY_FAIR = "Playfair";
+    private static final String DES ="DES";
 
     /**
      * Initializes the controller class.
@@ -50,12 +52,15 @@ public class FXMLController implements Initializable {
         // TODO
         combobox.getItems().add(CASER);
         combobox.getItems().add(PLAY_FAIR);
+        combobox.getItems().add(DES);
+        
+       
 
     }
 
     @FXML
     void encrypt(MouseEvent event) {
-        // to clear cipher text befor encryption
+       // to clear cipher text befor encryption
         ciphertext.clear();
         String[] input = planeText.getText().split(" ");
         String[] output = new String[input.length];
@@ -69,13 +74,14 @@ public class FXMLController implements Initializable {
             }
 
         }
-
-    }
+       
+       }
 
     @FXML
     void decrypt(MouseEvent event) {
 // to clear plane text befor encryption
         planeText.clear();
+        
         String[] input = ciphertext.getText().split(" ");
         String[] output = new String[input.length];
         //to take every word after space 
@@ -149,6 +155,23 @@ public class FXMLController implements Initializable {
                         return output;
 
                     }
+                    case DES:
+                    {
+                    DES des = new DES();
+                    if(key.getText().length()==8)
+                     output = des.encrypt(input, key.getText());  
+                    
+                       
+                    
+                    else
+                    {Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Input");
+                            alert.setHeaderText("Key must be 8 character");
+                            alert.showAndWait();
+                    }
+                     System.out.println( "output lengnth:" +output.length());
+                    return output;
+                    }
                     default:
                         System.out.println("Error ");
                 }
@@ -187,15 +210,27 @@ public class FXMLController implements Initializable {
                         output = playfair.decrypt();
                         return output;
 
+                    }case DES:
+                    {
+                    DES des = new DES();
+                    if(key.getText().length()==8)
+                     output = des.dycrypt(input, key.getText());
+                   
+                    
+                    else
+                    {Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Input");
+                            alert.setHeaderText("Key must be 8 character");
+                            alert.showAndWait();
+                    }
+                        System.out.println("Decryption"+output.length());
+                    return output;
                     }
                     default:
                         System.out.println("error");
                         break;
                 }
-            } else {
-                // to display alert if there is no algorithm
-                showAleart();
-            }
+            } 
         }
         return output;
     }

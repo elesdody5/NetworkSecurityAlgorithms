@@ -23,16 +23,17 @@ public class Playfair {
 
     private void createMatrix(String input, String key) {
         StringBuilder MatrixChar = new StringBuilder(key);
-        char alphapet = (char) 97;
+        char alphabet = (char) 97;
         for (int i = 0; i < 26; i++) {
 
-            if (alphapet != 'j') // to check every alphabet in key
+            if (alphabet != 'j')
+                // to check every alphabet in key
             {
-                if (!MatrixChar.toString().contains(String.valueOf(alphapet))) {
-                    MatrixChar.append(String.valueOf(alphapet));
+                if (!MatrixChar.toString().contains(String.valueOf(alphabet))) {
+                    MatrixChar.append(String.valueOf(alphabet));
                 }
             }
-            ++alphapet;
+            ++alphabet;
 
         }
         for (int i = 0; i < 5; i++) {
