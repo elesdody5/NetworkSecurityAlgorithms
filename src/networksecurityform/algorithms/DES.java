@@ -166,9 +166,9 @@ public class DES {
         input = permutaion(input, initialPermutation);
 
          for(int i=0;i<16;i++)
-        input = AlgroithmFunction(input, keys.get(i));
-          input = permutaion(input, finalPermutaion);
-          return Swap(input);
+          input = AlgroithmFunction(input, keys.get(i));
+          input = Swap(input);
+          return permutaion(input, finalPermutaion);
         
 
     }
@@ -192,14 +192,14 @@ public class DES {
 
         int rounds = numberShift[i];
         int left = Integer.parseInt(preLeft, 2);
-        String lastbits = preLeft.substring(preLeft.length() - rounds, preLeft.length());
-        left = Integer.rotateRight(left, rounds);
+        String lastbits = preLeft.substring(rounds, preLeft.length());
+        left = Integer.rotateLeft(left, rounds);
         preLeft = Integer.toBinaryString(left);
         preLeft = lastbits + preLeft;
         ///////////////////////
         int right = Integer.parseInt(preRight, 2);
-        lastbits = preRight.substring(preRight.length() - rounds, preRight.length());
-        right = Integer.rotateRight(right, rounds);
+        lastbits = preRight.substring( rounds, preRight.length());
+        right = Integer.rotateLeft(right, rounds);
         preRight = Integer.toBinaryString(right);
         preRight = lastbits + preRight;
         ///////////////////////
@@ -224,7 +224,7 @@ public class DES {
         for(int i=0;i<48;i+=6)
         {
         int row = Integer.parseInt(XorString.charAt(i)+""+XorString.charAt(i+5),2);
-        int column = Integer.parseInt(XorString.charAt(i+1)+""+XorString.charAt(i+5-1),2);
+        int column = Integer.parseInt(XorString.substring(i+1,i+5),2);
        
         int postion = row*16+column;
         int newchr=   S[i/6][postion];
@@ -257,7 +257,7 @@ public class DES {
     {
       StringBuilder Xorbuilder = new StringBuilder();
         for (int i = 0; i < frist.length(); i++) {
-            int ch = frist.charAt(i) ^ right.charAt(i);
+            int ch = Integer.parseInt(String.valueOf( frist.charAt(i))) ^Integer.parseInt(String.valueOf(right.charAt(i)));
             Xorbuilder.append(ch + "");
         }
         return Xorbuilder.toString();
@@ -287,8 +287,8 @@ public class DES {
         input = AlgroithmFunction(input, keys.get(i));
          
          // final permutaion 
-          input = permutaion(input, finalPermutaion);
-          return Swap(input);
+          input = Swap(input);
+          return permutaion(input, finalPermutaion);
     
     }
 }
